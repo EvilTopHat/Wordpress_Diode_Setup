@@ -3,6 +3,7 @@ echo "if prompted press accept the qustions in the prompts to continue"
 #setup firewall to block all but ssh
 ufw allow ssh
 ufw enable
+echo "y"
 #update software
 apt-get update && apt-get upgrade -y
 #setup automatic updates TODO test
