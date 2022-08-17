@@ -1,5 +1,8 @@
 echo "script must be run as root"
 echo "if prompted press accept the qustions in the prompts to continue"
+#genearte passwords
+mysql_pass=`openssl rand -base64 32`
+echo "$mysql_pass" > passwords.txt 
 #setup firewall to block all but ssh
 ufw allow ssh
 ufw --force enable 
