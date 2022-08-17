@@ -33,24 +33,7 @@ apt-get install apache2 \
                  php-mysql \
                  php-xml \
                  php-zip -y
-#start mysql and run secure script
-systemctl start mariadb.service
-mysql_secure_installation <<EOF
-y
-$mysql_pass
-$mysql_pass
-y
-y
-y
-y
-y
-EOF
 
-mysql --user="root" --password="$mysql_pass" --execute="CREATE DATABASE wordpress;"
-mysql --user="root" --password="$mysql_pass" --execute="CREATE USER wordpress@localhost IDENTIFIED BY '$mysql_user_pass';"
-mysql --user="root" --password="$mysql_pass" --execute="GRANT SELECT,INSERT,UPDATE,DELETE,CREATE,DROP,ALTER ON wordpress.* TO wordpress@localhost;"
-mysql --user="root" --password="$mysql_pass" --execute="FLUSH PRIVILEGES;"
-#run setup mysql
 #install wordpress
 mkdir -p /srv/www
 chown www-data: /srv/www
@@ -75,6 +58,42 @@ a2enmod rewrite
 a2dissite 000-default
 systemctl reload apache2
 systemctl restart apache2
+
+#start mysql and run secure script
+systemctl start mariadb.service
+mysql_secure_installation <<EOF
+y
+$mysql_pass
+$mysql_pass
+y
+y
+y
+y
+y
+EOF
+
+mysql --user="root" --password="$mysql_pass" --execute="CREATE DATABASE wordpress;"
+mysql --user="root" --password="$mysql_pass" --execute="CREATE USER wordpress@localhost IDENTIFIED BY '$mysql_user_pass';"
+mysql --user="root" --password="$mysql_pass" --execute="GRANT SELECT,INSERT,UPDATE,DELETE,CREATE,DROP,ALTER ON wordpress.* TO wordpress@localhost;"
+mysql --user="root" --password="$mysql_pass" --execute="FLUSH PRIVILEGES;"
+#configure wordpress to connect to database
+sudo -u www-data cp /srv/www/wordpress/wp-config-sample.php /srv/www/wordpress/wp-config.php
+sudo -u www-data sed -i 's/database_name_here/wordpress/' /srv/www/wordpress/wp-config.php
+sudo -u www-data sed -i 's/username_here/wordpress/' /srv/www/wordpress/wp-config.php
+sudo -u www-data sed -i 's/password_here/$mysql_user_pass/' /srv/www/wordpress/wp-config.php
+
+wordpress_configs=`curl https://api.wordpress.org/secret-key/1.1/salt/`
+
+sed 's/define(\'AUTH_KEY\',/begin_insert_here/' /srv/www/wordpress/wp-config.php
+sed 's/define(\'SECURE_AUTH_KEY\',//' /srv/www/wordpress/wp-config.php
+sed 's/define(\'LOGGED_IN_KEY\',//' /srv/www/wordpress/wp-config.php
+sed 's/define(\'NONCE_KEY\',//' /srv/www/wordpress/wp-config.php
+sed 's/define(\'AUTH_SALT\',//' /srv/www/wordpress/wp-config.php
+sed 's/define(\'SECURE_AUTH_SALT\',//' /srv/www/wordpress/wp-config.php
+sed 's/define(\'LOGGED_IN_SALT\',//' /srv/www/wordpress/wp-config.php
+sed 's/define(\'NONCE_SALT\',//' /srv/www/wordpress/wp-config.php
+sed 's/begin_insert_here/$wordpress_configs' /srv/www/wordpress/wp-config.php
+
 #install diode and publish new site
 #curl -Ssf https://diode.io/install.sh | sh
 #diode publish -public 80:80 
