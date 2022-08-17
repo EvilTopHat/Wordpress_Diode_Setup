@@ -4,8 +4,10 @@ echo "script must be run as root"
 echo "if prompted press accept the qustions in the prompts to continue"
 #genearte passwords
 mysql_pass=`openssl rand -base64 32`
+mysql_user_pass=`openssl rand -base64 32`
 cd /
-echo "mysql=$mysql_pass" > passwords.txt 
+echo "mysql_root=$mysql_pass\n" > passwords.txt 
+echo "mysql_wordpress=$mysql_user_pass\n" >> passwords.txt 
 #setup firewall to block all but ssh
 ufw allow ssh
 ufw --force enable 
@@ -44,6 +46,10 @@ y
 y
 EOF
 
+mysql --user="root" --password="$mysql_pass" --execute="CREATE DATABASE wordpress;"
+mysql --user="root" --password="$mysql_pass" --execute="CREATE USER wordpress@localhost IDENTIFIED BY '$mysql_user_pass';"
+mysql --user="root" --password="$mysql_pass" --execute="GRANT SELECT,INSERT,UPDATE,DELETE,CREATE,DROP,ALTER ON wordpress.* TO wordpress@localhost;"
+mysql --user="root" --password="$mysql_pass" --execute="FLUSH PRIVILEGES;"
 #run setup mysql
 #install wordpress
 mkdir -p /srv/www
