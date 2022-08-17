@@ -1,3 +1,5 @@
+#!/bin/bash
+
 echo "script must be run as root"
 echo "if prompted press accept the qustions in the prompts to continue"
 #genearte passwords
