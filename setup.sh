@@ -24,7 +24,7 @@ apt-get install apache2 \
                  php-mbstring \
                  php-mysql \
                  php-xml \
-                 php-zip
+                 php-zip -y
 #install wordpress
 mkdir -p /srv/www
 chown www-data: /srv/www
