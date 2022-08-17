@@ -31,17 +31,19 @@ apt-get install apache2 \
                  php-mysql \
                  php-xml \
                  php-zip -y
-#start mysql
+#start mysql and run secure script
 systemctl start mariadb.service
-mysql_secure_installation <<EOF\
-\y
-\$mysql_pass
-\$mysql_pass
-\y
-\y
-\y
-\y
-\EOF
+mysql_secure_installation <<EOF
+y
+somepass
+somepass
+y
+y
+y
+y
+y
+EOF
+
 #run setup mysql
 #install wordpress
 mkdir -p /srv/www
