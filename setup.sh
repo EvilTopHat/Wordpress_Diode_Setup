@@ -2,7 +2,8 @@ echo "script must be run as root"
 echo "if prompted press accept the qustions in the prompts to continue"
 #genearte passwords
 mysql_pass=`openssl rand -base64 32`
-echo "$mysql_pass" > passwords.txt 
+cd /
+echo "mysql=$mysql_pass" > passwords.txt 
 #setup firewall to block all but ssh
 ufw allow ssh
 ufw --force enable 
@@ -52,6 +53,16 @@ a2enmod rewrite
 a2dissite 000-default
 systemctl reload apache2
 systemctl restart apache2
+#install mysql
+mysql_secure_installation <<EOF\
+\y
+\$mysql_pass
+\$mysql_pass
+\y
+\y
+\y
+\y
+\EOF
 #install diode and publish new site
 #curl -Ssf https://diode.io/install.sh | sh
 #diode publish -public 80:80 
