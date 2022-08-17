@@ -15,12 +15,12 @@ apt-get update && apt-get upgrade -y
 #apt-get install unattended-upgrades
 #systemctl enable unattended-upgrades #should already be enabled but this line is just for double chekcing
 
-#install apache
+#install packages
 #https://ubuntu.com/tutorials/install-and-configure-wordpress#2-install-dependencies
 apt-get install apache2 \
                  ghostscript \
                  libapache2-mod-php \
-                 mysql-server \
+                 mariadb-server \
                  php \
                  php-bcmath \
                  php-curl \
@@ -31,6 +31,18 @@ apt-get install apache2 \
                  php-mysql \
                  php-xml \
                  php-zip -y
+#start mysql
+systemctl start mariadb.service
+mysql_secure_installation <<EOF\
+\y
+\$mysql_pass
+\$mysql_pass
+\y
+\y
+\y
+\y
+\EOF
+#run setup mysql
 #install wordpress
 mkdir -p /srv/www
 chown www-data: /srv/www
@@ -55,16 +67,6 @@ a2enmod rewrite
 a2dissite 000-default
 systemctl reload apache2
 systemctl restart apache2
-#install mysql
-mysql_secure_installation <<EOF\
-\y
-\$mysql_pass
-\$mysql_pass
-\y
-\y
-\y
-\y
-\EOF
 #install diode and publish new site
 #curl -Ssf https://diode.io/install.sh | sh
 #diode publish -public 80:80 
