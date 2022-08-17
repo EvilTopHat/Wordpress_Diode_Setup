@@ -47,7 +47,8 @@ echo "<VirtualHost *:80>
 a2ensite wordpress
 a2enmod rewrite
 a2dissite 000-default
-service apache2 reload
+systemctl reload apache2
+systemctl restart apache2
 #install diode and publish new site
 #curl -Ssf https://diode.io/install.sh | sh
 #diode publish -public 80:80 
