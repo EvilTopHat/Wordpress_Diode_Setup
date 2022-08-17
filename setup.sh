@@ -84,14 +84,14 @@ sudo -u www-data sed -i 's/password_here/$mysql_user_pass/' /srv/www/wordpress/w
 
 wordpress_configs=`curl https://api.wordpress.org/secret-key/1.1/salt/`
 
-sed 's/define(\'AUTH_KEY\',/begin_insert_here/' /srv/www/wordpress/wp-config.php
-sed 's/define(\'SECURE_AUTH_KEY\',//' /srv/www/wordpress/wp-config.php
-sed 's/define(\'LOGGED_IN_KEY\',//' /srv/www/wordpress/wp-config.php
-sed 's/define(\'NONCE_KEY\',//' /srv/www/wordpress/wp-config.php
-sed 's/define(\'AUTH_SALT\',//' /srv/www/wordpress/wp-config.php
-sed 's/define(\'SECURE_AUTH_SALT\',//' /srv/www/wordpress/wp-config.php
-sed 's/define(\'LOGGED_IN_SALT\',//' /srv/www/wordpress/wp-config.php
-sed 's/define(\'NONCE_SALT\',//' /srv/www/wordpress/wp-config.php
+sed 's/define\(\'AUTH_KEY\',/begin_insert_here/' /srv/www/wordpress/wp-config.php
+sed 's/define\(\'SECURE_AUTH_KEY\',//' /srv/www/wordpress/wp-config.php
+sed 's/define\(\'LOGGED_IN_KEY\',//' /srv/www/wordpress/wp-config.php
+sed 's/define\(\'NONCE_KEY\',//' /srv/www/wordpress/wp-config.php
+sed 's/define\(\'AUTH_SALT\',//' /srv/www/wordpress/wp-config.php
+sed 's/define\(\'SECURE_AUTH_SALT\',//' /srv/www/wordpress/wp-config.php
+sed 's/define\(\'LOGGED_IN_SALT\',//' /srv/www/wordpress/wp-config.php
+sed 's/define\(\'NONCE_SALT\',//' /srv/www/wordpress/wp-config.php
 sed 's/begin_insert_here/$wordpress_configs' /srv/www/wordpress/wp-config.php
 
 #install diode and publish new site
