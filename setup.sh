@@ -35,8 +35,8 @@ apt-get install apache2 \
 systemctl start mariadb.service
 mysql_secure_installation <<EOF
 y
-somepass
-somepass
+$mysql_pass
+$mysql_pass
 y
 y
 y
