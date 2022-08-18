@@ -6,8 +6,8 @@ echo "if prompted press accept the qustions in the prompts to continue"
 mysql_pass="`openssl rand -hex 64`"
 mysql_user_pass="`openssl rand -hex 64`"
 cd ~/
-echo "mysql_root=$mysql_pass\n" > passwords.txt 
-echo "mysql_wordpress=$mysql_user_pass\n" >> passwords.txt 
+echo "mysql_root=$mysql_pass" > passwords.txt 
+echo "mysql_wordpress=$mysql_user_pass" >> passwords.txt 
 #setup firewall to block all but ssh
 ufw allow ssh
 ufw --force enable 
