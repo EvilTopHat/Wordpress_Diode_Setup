@@ -84,15 +84,15 @@ sudo -u www-data sed -i -e "s/password_here/${mysql_user_pass}/g" /srv/www/wordp
 
 wordpress_configs="`curl https://api.wordpress.org/secret-key/1.1/salt/`"
 
-sed -i "s/define(\'AUTH_KEY.*/begin_insert_here/" /srv/www/wordpress/wp-config.php
+sed -i "s/.*AUTH_KEY.*//" /srv/www/wordpress/wp-config.php
 sed -i "s/.*SECURE_AUTH_KEY.*//" /srv/www/wordpress/wp-config.php
 sed -i "s/.*LOGGED_IN_KEY.*//" /srv/www/wordpress/wp-config.php
 sed -i "s/.*NONCE_KEY.*//" /srv/www/wordpress/wp-config.php
 sed -i "s/.*AUTH_SALT.*//" /srv/www/wordpress/wp-config.php
 sed -i "s/.*SECURE_AUTH_SALT.*//" /srv/www/wordpress/wp-config.php
 sed -i "s/.*LOGGED_IN_SALT.*//" /srv/www/wordpress/wp-config.php
-sed -i "s/.*NONCE_SALT.*//" /srv/www/wordpress/wp-config.php
-sed -i -e "s/begin_insert_here/${echo "$wordpress_configs"}/g" /srv/www/wordpress/wp-config.php
+sed -i "s/.*NONCE_SALT.*/begin_insert_here/" /srv/www/wordpress/wp-config.php
+awk -v old="begin_insert_here" -v new="$wordpress_configs" /srv/www/wordpress/wp-config.php
 
 #install diode and publish new site
 #curl -Ssf https://diode.io/install.sh | sh
