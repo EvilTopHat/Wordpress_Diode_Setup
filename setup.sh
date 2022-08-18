@@ -80,7 +80,7 @@ mysql --user="root" --password="$mysql_pass" --execute="FLUSH PRIVILEGES;"
 sudo -u www-data cp /srv/www/wordpress/wp-config-sample.php /srv/www/wordpress/wp-config.php
 sudo -u www-data sed -i 's/database_name_here/wordpress/' /srv/www/wordpress/wp-config.php
 sudo -u www-data sed -i 's/username_here/wordpress/' /srv/www/wordpress/wp-config.php
-sudo -u www-data sed -i 's/password_here/$mysql_user_pass/' /srv/www/wordpress/wp-config.php
+sudo -u www-data sed -i 's/password_here/`echo $mysql_user_pass`/' /srv/www/wordpress/wp-config.php
 
 wordpress_configs=`curl https://api.wordpress.org/secret-key/1.1/salt/`
 
@@ -92,7 +92,7 @@ sed -i 's/AUTH_SALT//' /srv/www/wordpress/wp-config.php
 sed -i 's/SECURE_AUTH_SALT//' /srv/www/wordpress/wp-config.php
 sed -i 's/LOGGED_IN_SALT//' /srv/www/wordpress/wp-config.php
 sed -i 's/NONCE_SALT//' /srv/www/wordpress/wp-config.php
-sed -i 's/begin_insert_here/$wordpress_configs' /srv/www/wordpress/wp-config.php
+sed -i 's/begin_insert_here/`echo $wordpress_configs`' /srv/www/wordpress/wp-config.php
 
 #install diode and publish new site
 #curl -Ssf https://diode.io/install.sh | sh
