@@ -3,10 +3,13 @@
 echo "script must be run as root"
 echo "if prompted press accept the qustions in the prompts to continue"
 #genearte passwords
+wordpress_user_admin="`openssl rand -hex 10`"
 mysql_pass="`openssl rand -hex 64`"
 mysql_user_pass="`openssl rand -hex 64`"
 cd ~/
-echo "mysql_root=$mysql_pass" > passwords.txt 
+echo "installation and software passwords" > passwords.txt
+echo "wordpress_admin_password=$wordpress_user_admin" >> passwords.txt 
+echo "mysql_root=$mysql_pass" >> passwords.txt 
 echo "mysql_wordpress=$mysql_user_pass" >> passwords.txt 
 #setup firewall to block all but ssh
 ufw allow ssh
@@ -77,7 +80,7 @@ mysql --user="root" --password="$mysql_pass" --execute="CREATE DATABASE wordpres
 mysql --user="root" --password="$mysql_pass" --execute="CREATE USER wordpress@localhost IDENTIFIED BY '$mysql_user_pass';"
 mysql --user="root" --password="$mysql_pass" --execute="GRANT SELECT,INSERT,UPDATE,DELETE,CREATE,DROP,ALTER ON wordpress.* TO wordpress@localhost;"
 mysql --user="root" --password="$mysql_pass" --execute="FLUSH PRIVILEGES;"
-#configure wordpress to connect to database
+#configure wordpress config
 sudo -u www-data cp /srv/www/wordpress/wp-config-sample.php /srv/www/wordpress/wp-config.php
 sudo -u www-data sed -i 's/database_name_here/wordpress/' /srv/www/wordpress/wp-config.php
 sudo -u www-data sed -i 's/username_here/wordpress/' /srv/www/wordpress/wp-config.php
@@ -95,9 +98,32 @@ sed -i "s/.*NONCE_SALT.*/begin_insert_here/" /srv/www/wordpress/wp-config.php
 sed -i '/begin_insert_here/r /tmp/wp.keys' /srv/www/wordpress/wp-config.php
 sed -i "s/begin_insert_here//" /srv/www/wordpress/wp-config.php
 rm /tmp/wp.keys
+
 #install diode and publish new site
 curl -Ssf https://diode.io/install.sh | sh
 export PATH=/root/opt/diode:$PATH
 diode_address=`diode config 2>&1 | awk '/<address>/ { print $(NF) }'`
+
+#install wordpress cli
+wget https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar -O /usr/bin/wp
+chmod +x /usr/bin/wp
+
+#finish installation
+wp core install --allow-root --path="/srv/www" --title="wordpress diode" --url="https://${diode_address}.diode.link" --admin_email="admin@localhost.com"  --admin_password="$wordpress_admin_password" --admin_user="admin"
+
+#install plugins
+wp plugin install wp-fail2ban --allow-root --path="/srv/www"
+wp plugin activate wp-fail2ban --allow-root --path="/srv/www"
+wp plugin activate https://github.com/DiscipleTools/disciple-tools-theme/releases/latest/download/disciple-tools-theme.zip --allow-root --path="/srv/www"
+chown -Rf www-data.www-data /srv/www
+#cp /etc/skel/.bashrc /root
+
+#start diode server
 echo "${diode_address}.diode.link"
 diode publish -public 80:80 &
+
+#display login instructions
+echo "wordpress url is https://${diode_address}.diode.link"
+echo "log into wordpress with the user name admin"
+echo "and the password $wordpress_admin_password"
+echo "remember to change the password and save it in a password manager"
