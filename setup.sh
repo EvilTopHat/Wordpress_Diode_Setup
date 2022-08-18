@@ -91,7 +91,7 @@ sed -i "s/.*AUTH_SALT.*//" /srv/www/wordpress/wp-config.php
 sed -i "s/.*SECURE_AUTH_SALT.*//" /srv/www/wordpress/wp-config.php
 sed -i "s/.*LOGGED_IN_SALT.*//" /srv/www/wordpress/wp-config.php
 sed -i "s/.*NONCE_SALT.*/begin_insert_here/" /srv/www/wordpress/wp-config.php
-sed -i '/begin_insert_here/r /tmp/wp.keys' wp-config.php
+sed -i '/begin_insert_here/r /tmp/wp.keys' /srv/www/wordpress/wp-config.php
 sed -i "s/begin_insert_here//" /srv/www/wordpress/wp-config.php
 rm /tmp/wp.keys
 #install diode and publish new site
