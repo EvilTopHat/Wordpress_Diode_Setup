@@ -109,7 +109,7 @@ wget https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar -
 chmod +x /usr/bin/wp
 
 #finish installation
-wp core install --allow-root --path="/srv/www/wordpress" --title="wordpress diode" --url="https://${diode_address}.diode.link" --admin_email="admin@localhost.com"  --admin_password="$wordpress_user_admin" --admin_user="admin"
+wp core install --allow-root --path="/srv/www/wordpress" --title="wordpress diode" --url="http://${diode_address}.diode.link" --admin_email="admin@localhost.com"  --admin_password="$wordpress_user_admin" --admin_user="admin"
 
 #install plugins
 wp plugin install wp-fail2ban --allow-root --path="/srv/www/wordpress"
@@ -124,7 +124,7 @@ echo "${diode_address}.diode.link"
 diode publish -public 80:80 &
 
 #display login instructions
-echo "wordpress url is https://${diode_address}.diode.link"
+echo "wordpress url is http://${diode_address}.diode.link"
 echo "log into wordpress with the user name admin"
 echo "and the password $wordpress_user_admin"
 echo "remember to change the password and save it in a password manager"
