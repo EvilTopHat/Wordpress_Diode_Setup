@@ -3,8 +3,8 @@
 echo "script must be run as root"
 echo "if prompted press accept the qustions in the prompts to continue"
 #genearte passwords
-mysql_pass=`openssl rand -base64 32`
-mysql_user_pass=`openssl rand -base64 32`
+mysql_pass="`openssl rand -base64 32`"
+mysql_user_pass="`openssl rand -base64 32`"
 cd /
 echo "mysql_root=$mysql_pass\n" > passwords.txt 
 echo "mysql_wordpress=$mysql_user_pass\n" >> passwords.txt 
@@ -80,9 +80,9 @@ mysql --user="root" --password="$mysql_pass" --execute="FLUSH PRIVILEGES;"
 sudo -u www-data cp /srv/www/wordpress/wp-config-sample.php /srv/www/wordpress/wp-config.php
 sudo -u www-data sed -i 's/database_name_here/wordpress/' /srv/www/wordpress/wp-config.php
 sudo -u www-data sed -i 's/username_here/wordpress/' /srv/www/wordpress/wp-config.php
-sudo -u www-data sed -i "s/password_here/\${mysql_user_pass}/" /srv/www/wordpress/wp-config.php
+sudo -u www-data sed -i -e "s/password_here/${mysql_user_pass}/g" /srv/www/wordpress/wp-config.php
 
-wordpress_configs=`curl https://api.wordpress.org/secret-key/1.1/salt/`
+wordpress_configs="`curl https://api.wordpress.org/secret-key/1.1/salt/`"
 
 sed -i "s/.*AUTH_KEY'.*/begin_insert_here/" /srv/www/wordpress/wp-config.php
 sed -i "s/.*SECURE_AUTH_KEY.*//" /srv/www/wordpress/wp-config.php
@@ -92,8 +92,8 @@ sed -i "s/.*AUTH_SALT.*//" /srv/www/wordpress/wp-config.php
 sed -i "s/.*SECURE_AUTH_SALT.*//" /srv/www/wordpress/wp-config.php
 sed -i "s/.*LOGGED_IN_SALT.*//" /srv/www/wordpress/wp-config.php
 sed -i "s/.*NONCE_SALT.*//" /srv/www/wordpress/wp-config.php
-sed -i "s/.*begin_insert_here.*/\${wordpress_configs}/" /srv/www/wordpress/wp-config.php
+sed -i -e "s/begin_insert_here/${wordpress_configs}/g" /srv/www/wordpress/wp-config.php
 
 #install diode and publish new site
-#curl -Ssf https://diode.io/install.sh | sh
-#diode publish -public 80:80 
+curl -Ssf https://diode.io/install.sh | sh
+diode publish -public 80:80 
