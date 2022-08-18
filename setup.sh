@@ -99,4 +99,5 @@ rm /tmp/wp.keys
 curl -Ssf https://diode.io/install.sh | sh
 export PATH=/root/opt/diode:$PATH
 diode_address=`diode config 2>&1 | awk '/<address>/ { print $(NF) }'`
-#diode publish -public 80:80 
+echo "${diode_address}.diode.link"
+diode publish -public 80:80 &
