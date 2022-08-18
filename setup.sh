@@ -112,9 +112,9 @@ chmod +x /usr/bin/wp
 wp core install --allow-root --path="/srv/www" --title="wordpress diode" --url="https://${diode_address}.diode.link" --admin_email="admin@localhost.com"  --admin_password="$wordpress_admin_password" --admin_user="admin"
 
 #install plugins
-wp plugin install wp-fail2ban --allow-root --path="/srv/www"
-wp plugin activate wp-fail2ban --allow-root --path="/srv/www"
-wp plugin activate https://github.com/DiscipleTools/disciple-tools-theme/releases/latest/download/disciple-tools-theme.zip --allow-root --path="/srv/www"
+wp plugin install wp-fail2ban --allow-root --path="/srv/www/wordpress"
+wp plugin activate wp-fail2ban --allow-root --path="/srv/www/wordpress"
+wp plugin activate https://github.com/DiscipleTools/disciple-tools-theme/releases/latest/download/disciple-tools-theme.zip --allow-root --path="/srv/www/wordpress"
 chown -Rf www-data.www-data /srv/www
 #cp /etc/skel/.bashrc /root
 
