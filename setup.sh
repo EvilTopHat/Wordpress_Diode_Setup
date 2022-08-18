@@ -96,5 +96,7 @@ sed -i '/begin_insert_here/r /tmp/wp.keys' /srv/www/wordpress/wp-config.php
 sed -i "s/begin_insert_here//" /srv/www/wordpress/wp-config.php
 rm /tmp/wp.keys
 #install diode and publish new site
-#curl -Ssf https://diode.io/install.sh | sh
+curl -Ssf https://diode.io/install.sh | sh
+export PATH=/root/opt/diode:$PATH
+diode_address=`diode config 2>&1 | awk '/<address>/ { print $(NF) }'`
 #diode publish -public 80:80 
