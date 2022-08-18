@@ -92,7 +92,7 @@ sed -i 's/AUTH_SALT//' /srv/www/wordpress/wp-config.php
 sed -i 's/SECURE_AUTH_SALT//' /srv/www/wordpress/wp-config.php
 sed -i 's/LOGGED_IN_SALT//' /srv/www/wordpress/wp-config.php
 sed -i 's/NONCE_SALT//' /srv/www/wordpress/wp-config.php
-sed -i 's/begin_insert_here/`echo $wordpress_configs`' /srv/www/wordpress/wp-config.php
+sed -i 's/begin_insert_here/`echo $wordpress_configs`/' /srv/www/wordpress/wp-config.php
 
 #install diode and publish new site
 #curl -Ssf https://diode.io/install.sh | sh
