@@ -77,6 +77,7 @@ mysql --user="root" --password="$mysql_pass" --execute="CREATE USER wordpress@lo
 mysql --user="root" --password="$mysql_pass" --execute="GRANT SELECT,INSERT,UPDATE,DELETE,CREATE,DROP,ALTER ON wordpress.* TO wordpress@localhost;"
 mysql --user="root" --password="$mysql_pass" --execute="FLUSH PRIVILEGES;"
 #configure wordpress to connect to database
+mysql_user_pass=$(echo "${mysql_user_pass}" | sed -e 's/[]$.*[\^]/\\&/g' )
 sudo -u www-data cp /srv/www/wordpress/wp-config-sample.php /srv/www/wordpress/wp-config.php
 sudo -u www-data sed -i 's/database_name_here/wordpress/' /srv/www/wordpress/wp-config.php
 sudo -u www-data sed -i 's/username_here/wordpress/' /srv/www/wordpress/wp-config.php
