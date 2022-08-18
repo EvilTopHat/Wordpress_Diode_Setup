@@ -20,6 +20,7 @@ apt-get update && apt-get upgrade -y
 #install packages
 #https://ubuntu.com/tutorials/install-and-configure-wordpress#2-install-dependencies
 apt-get install apache2 \
+                 unzip \
                  ghostscript \
                  libapache2-mod-php \
                  mariadb-server \
