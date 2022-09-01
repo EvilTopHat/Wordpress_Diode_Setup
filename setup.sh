@@ -111,9 +111,11 @@ chmod +x /usr/bin/wp
 #finish installation
 wp core install --allow-root --path="/srv/www/wordpress" --title="wordpress diode" --url="http://${diode_address}.diode.link" --admin_email="admin@localhost.com"  --admin_password="$wordpress_user_admin" --admin_user="admin"
 
-#install plugins
+#install plugins and theme
 wp plugin install wp-fail2ban --allow-root --path="/srv/www/wordpress"
 wp plugin activate wp-fail2ban --allow-root --path="/srv/www/wordpress"
+wp plugin install relative-url --allow-root --path="/srv/www/wordpress"
+wp plugin activate relative-url --allow-root --path="/srv/www/wordpress"
 wp theme install --allow-root --path="/srv/www/wordpress" https://github.com/DiscipleTools/disciple-tools-theme/releases/latest/download/disciple-tools-theme.zip
 wp theme activate --allow-root --path="/srv/www/wordpress" disciple-tools-theme
 chown -Rf www-data.www-data /srv/www
