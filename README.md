@@ -6,5 +6,5 @@ setup a new server and make a wordpress site and publish on diode
 2. run `curl -Ssf https://raw.githubusercontent.com/EvilTopHat/Wordpress_Diode_Setup/main/setup.sh | sh`
 
 # Note on ussage
-* Due to the design of diode and wordpress you will need to run the site in insucure mode to get full fucionality. Some files in wordpress will be blocked otherwise because it will be considered mixed content.
 * This script is a work in progress some features such as setting up automatic updates have not yet been added.
+* Because it is a work in progress there may be bugs. Sorry about that in advance.
