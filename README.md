@@ -1,5 +1,5 @@
 # Wordpress_Diode_Setup
-setup a new server and make a wordpress site and publish on diode
+This allows you to use the decentralizied Diode network (diode.io), to install a self-hosted, WordPress website.
 
 # How to run on your sever
 1. login as root
@@ -7,4 +7,4 @@ setup a new server and make a wordpress site and publish on diode
 
 # Note on usage
 * This script is a work in progress some features such as setting up automatic updates have not yet been added.
-* Because it is a work in progress there may be bugs. Sorry about that in advance.
+* Has only been tested on Ubuntu Servers at this point.
