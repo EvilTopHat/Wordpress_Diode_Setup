@@ -116,8 +116,6 @@ wp plugin install wp-fail2ban --allow-root --path="/srv/www/wordpress"
 wp plugin activate wp-fail2ban --allow-root --path="/srv/www/wordpress"
 wp plugin install relative-url --allow-root --path="/srv/www/wordpress"
 wp plugin activate relative-url --allow-root --path="/srv/www/wordpress"
-wp theme install --allow-root --path="/srv/www/wordpress" https://github.com/DiscipleTools/disciple-tools-theme/releases/latest/download/disciple-tools-theme.zip
-wp theme activate --allow-root --path="/srv/www/wordpress" disciple-tools-theme
 chown -Rf www-data.www-data /srv/www
 #cp /etc/skel/.bashrc /root
 
