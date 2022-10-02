@@ -1,5 +1,5 @@
 # Wordpress_Diode_Setup
-This allows you to use the decentralizied Diode network (diode.io), to install a self-hosted, WordPress website.
+This allows you to use the decentralized Diode Network (diode.io), to install a self-hosted, WordPress website.
 
 # How to run on your sever
 1. login as root
