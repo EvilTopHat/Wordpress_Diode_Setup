@@ -1,7 +1,7 @@
 # Wordpress_Diode_Setup
 This allows you to use the decentralized Diode Network (diode.io), to install a self-hosted, WordPress website.
 
-# How to run on your sever
+# How to run on your server
 1. login as root
 2. run `curl -Ssf https://raw.githubusercontent.com/Kavanah-Media/Wordpress_Diode_Setup/main/setup.sh | sh`
 
