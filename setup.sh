@@ -116,12 +116,36 @@ wp plugin install wp-fail2ban --allow-root --path="/srv/www/wordpress"
 wp plugin activate wp-fail2ban --allow-root --path="/srv/www/wordpress"
 wp plugin install relative-url --allow-root --path="/srv/www/wordpress"
 wp plugin activate relative-url --allow-root --path="/srv/www/wordpress"
+wp theme install --allow-root --path="/srv/www/wordpress" https://github.com/DiscipleTools/disciple-tools-theme/releases/latest/download/disciple-tools-theme.zip
+wp theme activate --allow-root --path="/srv/www/wordpress" disciple-tools-theme
 chown -Rf www-data.www-data /srv/www
 #cp /etc/skel/.bashrc /root
 
-#start diode server
-echo "http://${diode_address}.diode.link"
-diode publish -public 80:80 &
+#start diode CLI
+echo "Starting http://${diode_address}.diode.link"
+
+#Configure systemd for diode
+echo "# Can be put into /etc/systemd/system/
+[Unit]
+Description=Diode blockchain network client
+[Service]
+Type=simple
+ExecStart=/root/opt/diode/diode publish -public 80:80
+Restart=always
+RuntimeMaxSec=14400
+ExecStartPre=/bin/sleep 60
+User=root
+[Install]
+WantedBy=multi-user.target" > /etc/systemd/system/diode.service
+
+#Enable diode
+systemctl enable diode
+echo "Starting Diode - 60 second delay..."
+systemctl start diode
+systemctl status diode
+
+echo "Done setting up the Diode CLI - it is now persistent on this system"
+echo "You can type 'systemctl status diode' to get status on the Diode CLI in the future"
 
 #display login instructions
 echo "wordpress url is http://${diode_address}.diode.link"
