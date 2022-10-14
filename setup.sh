@@ -131,7 +131,7 @@ Description=Diode blockchain network client
 
 [Service]
 Type=simple
-ExecStart=/root/opt/diode/diode -logfilepath=/root/.config/diode/debug.log -logdatetime=true -debug=true publish -public 80:80
+ExecStart=/root/opt/diode/diode publish -public 80:80
 Restart=always
 RuntimeMaxSec=14400
 ExecStartPre=/bin/sleep 60
